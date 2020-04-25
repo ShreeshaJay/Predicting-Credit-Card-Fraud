@@ -609,11 +609,12 @@ def test_rf_performance_function(X_train, y_train, X_test, y_test, labels, recal
     from helper_functions_comprehensive import precision_at_recall_threshold
     from helper_functions_comprehensive import classification_report, confusion_matrix, plot_confusion_matrix_function
     
-
     predicted_proba = classifier.predict_proba(X_test)[:,1]
     threshold_precision = precision_at_recall_threshold_function(y_test, predicted_proba, recall_threshold=0.85)
     
-    return metrics_dict, threshold_precision
+    metrics_dict['Precision_at_Recall'] = threshold_precision
+    
+    return metrics_dict
 # test_rf_performance_function(X_train, y_train, X_test, y_test, labels, output_metrics = True)
 
 
@@ -636,10 +637,10 @@ def resample_and_test_performance_function(ResampleMethod, X_train, y_train, X_t
     print(X_resampled_train.shape,sum(y_resampled_train))
     
     # call the function to generate the plots and return the metrics
-    metrics_dict, threshold_precision  = test_rf_performance_function(
+    metrics_dict  = test_rf_performance_function(
                             X_resampled_train, y_resampled_train, X_test, y_test, labels)
     
-    return X_resampled_train, y_resampled_train, metrics_dict, threshold_precision
+    return X_resampled_train, y_resampled_train, metrics_dict
 
 # This is how one would call the function
 # _,__, sampling_strategy_metrics_df.loc['Undersampling'] = resample_and_test_function(
